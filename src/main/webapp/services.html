@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Explore Indore City Services</title>
+  <link rel="stylesheet" href="services.css"/>
+</head>
+<body>
+
+  <!-- Hero / Search -->
+  <header class="hero">
+    <h1>Explore Indore City Services</h1>
+    <div class="search-bar">
+      <input id="searchInput" type="text" placeholder="Search services..." />
+    </div>
+  </header>
+
+  <!-- Category Filter -->
+  <nav class="categories">
+    <div class="category-card active" data-category="All">All</div>
+    <div class="category-card" data-category="Hospitals">Hospitals</div>
+    <div class="category-card" data-category="Colleges">Colleges</div>
+    <div class="category-card" data-category="Restaurants">Restaurants</div>
+    <div class="category-card" data-category="Transport">Transport</div>
+    <div class="category-card" data-category="Shops">Shops</div>
+  </nav>
+
+  <!-- Services Grid -->
+  <section id="servicesContainer" class="services-grid">
+    <!-- JS will inject service cards here -->
+  </section>
+
+  <!-- Script: data + rendering + filtering -->
+  <script>
+    // 35 sample services (7 per category)
+    const services = [
+      // Hospitals
+      { name:"Apollo Hospital", category:"Hospitals", desc:"24/7 multi-specialty care", address:"Vijay Nagar, Indore", phone:"07312445566", website:"https://www.apollohospitals.com/corporate/hospital/indore/", img:"all photos/apollo.jpg" },
+      { name:"Bombay Hospital", category:"Hospitals", desc:"NABH-accredited tertiary care", address:"Tulsi Nagar, Vijay Nagar, Indore", phone:"07314771111", website:"https://bombayhospitalindore.com/", img:"all photos/bombayhospitals - Copy.jpg" },
+{ name:"Choithram Hospital", category:"Hospitals", desc:"Trusted multi-specialty hospital", address:"Manik Bagh Road, Indore", phone:"07312362491", website:"https://choithramhospital.com/", img:"all photos/choithram.jpg" },
+{ name:"Sri Aurobindo Hospital", category:"Hospitals", desc:"Advanced surgical and trauma care", address:"Near MR-10, Indore-Ujjain Road", phone:"07314231000", website:"http://www.saimsonline.com/", img:"all photos/saims.jpg" },
+{ name:"CHL Hospitals", category:"Hospitals", desc:"Renowned for cardiac surgery", address:"AB Road, LIG Square, Indore", phone:"07314774444", website:"https://www.chlhospitals.com/", img:"all photos/chl.jpg" },
+{ name:"Shalby Hospital", category:"Hospitals", desc:"Joint replacement specialists", address:"Race Course Road, Indore", phone:"07316677777", website:"https://www.shalby.org/", img:"all photos/shalby.jpg" },
+{ name:"Arihant Hospital", category:"Hospitals", desc:"300-bed modern hospital", address:"Ring Road, Gumasta Nagar, Indore", phone:"07312785172", website:"https://www.arihanthospital.org/", img:"all photos/arihant.jpg" },
+{ name:"Bhandari Hospital", category:"Hospitals", desc:"Cardiac and ortho care", address:"Scheme 54, Near Meghdoot Garden, Indore", phone:"07314733333", website:"https://www.bhrcindia.com/", img:"all photos/bhandari.jpg" },
+{ name:"Gokuldas Hospital", category:"Hospitals", desc:"Modern general hospital", address:"Sarju Prasad Marg, Indore", phone:"07312519212", website:"https://www.gokuldashospital.com/", img:"all photos/gokuldas.jpg" },
+{ name:"Life Care Hospital", category:"Hospitals", desc:"Advanced medical tech", address:"Scheme No. 78-II, Vijay Nagar, Indore", phone:"08048091862", website:"https://www.lifecarehospital.co.in/", img:"all photos/lifecare.jpg" },
+{ name:"Aditya Hospital", category:"Hospitals", desc:"Modern multi-specialty services", address:"Usha Nagar, Indore", phone:"07312483311", website:"https://adityahospitalindore.com/", img:"all photos/aditya.jpg" },
+{ name:"Eureka Hospital", category:"Hospitals", desc:"24/7 patient-focused care", address:"Saket Nagar, Indore", phone:"07314703811", website:"https://eurekahospital.in/", img:"all photos/eureka.jpg" },
+{ name:"Energy Hospital", category:"Hospitals", desc:"Full-service healthcare", address:"Nemawar Road, Devguradia, Indore", phone:"07312863200", website:"https://www.smsenergyhospital.com/", img:"all photos/energy.jpg" },
+{ name:"Asian Infertility Center", category:"Hospitals", desc:"IVF and fertility solutions", address:"LIG Circle, Indore", phone:"07312579595", website:"https://www.asianinfertility.com/", img:"all photos/asian.jpg" },
+{ name:"Global SNG Hospital", category:"Hospitals", desc:"Comprehensive medical services", address:"South Tukoganj, Indore", phone:"07314095458", website:"https://www.globalhospitalindore.com/", img:"all photos/globalsng.jpg" },
+{ name:"Greater Kailash Hospital", category:"Hospitals", desc:"Super specialty and trauma", address:"Old Palasia, Indore", phone:"07316633333", website:"https://www.gkh.co.in/", img:"all photos/gkh.jpg" },
+{ name:"M.Y. Hospital (MYH)", category:"Hospitals", desc:"Govt. multi-specialty hospital", address:"A.B. Road, Indore", phone:"07312527383", website:"http://www.mgmmcindore.in/", img:"all photos/myh.jpg" },
+{ name:"Index Medical College", category:"Hospitals", desc:"Medical college and hospital", address:"Nemawar Road, Indore", phone:"07314013601", website:"https://indexgroup.co.in/medical-college/", img:"all photos/index.jpg" },
+{ name:"Mangal Hospital", category:"Hospitals", desc:"Affordable general care", address:"Chhoti Gwaltoli, Indore", phone:"07312542030", website:"https://mangalhospital.business.site/", img:"all photos/mangal.jpg" },
+{ name:"Kalindi Hospital", category:"Hospitals", desc:"Orthopedic and surgical care", address:"Kalani Nagar, Indore", phone:"07312482891", website:"https://kalindihospital.in/", img:"all photos/kalindi.jpg" },
+
+      
+      // Colleges
+      { name:"IIPS (International Institute of Professional Studies)", category:"Colleges", desc:"UG & PG programs in management and IT", address:"Takshila Campus, DAVV, Khandwa Road, Indore", phone:"07312471690", website:"https://www.iips.edu.in/", img:"all photos/iips.jpg" },
+{ name:"IMS (Institute of Management Studies)", category:"Colleges", desc:"Reputed MBA college under DAVV", address:"Khandwa Road, Indore", phone:"07312476051", website:"https://ims.dauniv.ac.in/", img:"all photos/ims.jpg" },
+{ name:"SCSIT (School of Computer Science & IT)", category:"Colleges", desc:"IT & computer science under DAVV", address:"Takshila Campus, DAVV, Khandwa Road, Indore", phone:"07312471690", website: "https://scs.dauniv.ac.in/ ", img:"all photos/scsit.jpg" },
+{ name:"Devi Ahilya Vishwavidyalaya (DAVV)", category:"Colleges", desc:"Central university of Indore", address:"Nalanda Campus, RNT Marg, Indore", phone:"07312471210", website:"https://www.dauniv.ac.in/", img:"all photos/davv.jpg" },
+{ name:"Prestige Institute of Management and Research (PIMR)", category:"Colleges", desc:"Top MBA & law institute", address:"Scheme No. 74-C, Indore", phone:"07314018766", website:"https://www.pimrindore.ac.in/", img:"all photos/pimr.jpg" },
+{ name:"Acropolis Institute of Technology & Research", category:"Colleges", desc:"Engineering and management programs", address:"Mangliya Square, Indore", phone:"07314240000", website:"https://www.acropolis.in/", img:"all photos/acropolis.jpg" },
+{ name:"Medicaps University", category:"Colleges", desc:"Private university for tech and management", address:"A.B. Road, Pigdamber, Rau, Indore", phone:"07312438000", website:"https://www.medicaps.ac.in/", img:"all photos/medicaps.jpg" },
+{ name:"IPS Academy", category:"Colleges", desc:"Multi-disciplinary college", address:"Rajendra Nagar, Indore", phone:"07312401940", website:"https://www.ipsacademy.org/", img:"all photos/ips.jpg" },
+{ name:"Shri Vaishnav Vidyapeeth Vishwavidyalaya (SVVV)", category:"Colleges", desc:"Private university with multiple streams", address:"Ujjain Road, Indore", phone:"07312430333", website:"https://www.svvv.edu.in/", img:"all photos/svvv.jpg" },
+{ name:"Oriental University", category:"Colleges", desc:"Emerging private university", address:"Sanwer Road, Jakhya, Indore", phone:"07312439800", website:"https://oui.edu.in/", img:"all photos/oriental.jpg" },
+{ name:"Indore Institute of Science & Technology (IIST)", category:"Colleges", desc:"Engineering and pharmacy institute", address:"Rau-Pithampur Road, Indore", phone:"07312909060", website:"https://indoreinstitute.com/", img:"all photos/iist.jpg" },
+{ name:"Lakshmi Narain College of Technology (LNCT Indore)", category:"Colleges", desc:"Technical and management education", address:"Rau, Indore", phone:"07314980000", website:"https://lnctindore.com/", img:"all photos/lnct.jpg" },
+{ name:"SAGE University", category:"Colleges", desc:"Private university with modern curriculum", address:"Bhopal Bypass Road, Indore", phone:"18001231454", website:"https://sageuniversity.in/", img:"all photos/sage.jpg" },
+{ name:"Govt Holkar Science College", category:"Colleges", desc:"Historic government science college", address:"AB Road, Indore", phone:"07312470943", website:"https://collegeholkar.org/", img:"all photos/holkar.jpg" },
+{ name:"Christian Eminent College", category:"Colleges", desc:"UG & PG programs in commerce & science", address:"Bharati Colony, Indore", phone:"07312579999", website:"https://cecindore.org/", img:"all photos/christian.jpg" },
+{ name:"New GDC College (New Government Degree College)", category:"Colleges", desc:"Govt college with multiple disciplines", address:"Rajendra Nagar, Indore", phone:"07312559951", website:"https://www.mpcolleges.nic.in/", img:"all photos/gdc.jpg" },
+{ name:"Govt Arts and Commerce College", category:"Colleges", desc:"Oldest arts and commerce college", address:"Bhanwarkuan, Indore", phone:"07312474712", website:"https://www.gaccindore.in/", img:"all photos/gacc.jpg" },
+{ name:"SVKM's NMIMS Indore", category:"Colleges", desc:"Top private business school", address:"Super Corridor, Indore", phone:"07299090555", website:"https://www.nmims.edu/", img:"all photos/nmims.jpg" },
+{ name:"Malwa Institute of Technology", category:"Colleges", desc:"Engineering and professional studies", address:"Nipania, Indore", phone:"07312460190", website:"https://malwa.org.in/", img:"all photos/malwa.jpg" },
+{ name:"Renaissance College of Commerce & Management", category:"Colleges", desc:"Commerce & management institute", address:"Rau, Indore", phone:"07316602570", website:"https://renaissance.ac.in/", img:"all photos/renaissance.jpg" },
+
+      //restaurants
+      { name:"Indore Kitchen", category:"Restaurants", desc:"Indian & Chinese", address:"MG Road, Indore", phone:"0731-9876543", website:"https://www.clubmarriott.in/ ", img:"all photos/indorekitchen.jpg" },
+      { name:"Tandoor House", category:"Restaurants", desc:"Indian BBQ", address:"Vijay Nagar, Indore", phone:"0731-1234567", website:"https://www.zomato.com/indore/tandoor-bar-restaurant-vijay-nagar", img:"all photos/tandoor.jpg" },
+      { name:"street junction  food ", category:"Restaurants", desc:"Local street food", address:"gita bhawan road, Indore", phone:"0731-2345678", website:"https://www.zomato.com/indore/restaurants/street-food?landmark_id=589", img:"all photos/street.jpg" },
+      { name:"Pizza Paradise", category:"Restaurants", desc:"Pizzas & Fast Food", address:"A.B. Road, Indore", phone:"0731-7654321", website:"https://pizzaparadise.in", img:"all photos/pizza.jpg" },
+      { name:"Royal Cuisine", category:"Restaurants", desc:"Continental & Indian", address:"Bicholi Mardana, Indore", phone:"0731-3456789", website:"https://royalcuisine.in", img:"all photos/royal.jpg" },
+      { name:"Saffron Bistro", category:"Restaurants", desc:"Fine Dining", address:"Sadar Bazar, Indore", phone:"0731-6549876", website:"https://saffronbistro.in", img:"all photos/saffron.jpg" },
+      { name:"Foodie's Den", category:"Restaurants", desc:"Multi-cuisine", address:"Rajendra Nagar, Indore", phone:"0731-4328765", website:"https://foodiesden.in", img:"all photos/den.jpg" },
+      { name:"The Spice Hub", category:"Restaurants", desc:"Authentic Indian", address:"Ravi Shankar Nagar, Indore", phone:"0731-8765432", website:"https://spicehub.in", img:"all photos/spicehub.jpg" },
+      { name:"Chili's Kitchen", category:"Restaurants", desc:"Mexican & Indian", address:"Saket Nagar, Indore", phone:"0731-1112345", website:"https://chiliskitchen.in", img:"all photos/chilis.jpg" },
+      { name:"Café Central", category:"Restaurants", desc:"Café & Snacks", address:"Sadar Bazar, Indore", phone:"0731-6541234", website:"https://cafecentral.in", img:"all photos/cafe.jpg" },
+      
+      
+      // Transport
+      { name:"City Cabs", category:"Transport", desc:"24×7 taxi service", address:"Vijay Nagar, Indore", phone:"0731-9001001", website:"https://citycabs.in", img:"all photos/city.jpg" },
+      { name:"Rapid Buses", category:"Transport", desc:"Inter‐city coaches", address:"Navlakha Bus Stand, Indore", phone:"0731-9001002", website:"http://www.citybusindore.com/", img:"all photos/rapid.jpg" },
+      { name:"Metro Auto", category:"Transport", desc:"Auto‐rickshaws", address:"Rajwada, Indore", phone:"0731-9001003", website:"https://metroauto.in", img:"all photos/metro.jpg" },
+      { name:"Swift Rentals", category:"Transport", desc:"Self‐drive cars", address:"MG Road, Indore", phone:"0731-9001004", website:"https://swiftrentals.in", img:"all photos/swift.jpg" },
+      { name:"City Bike", category:"Transport", desc:"Bike taxis", address:"Bhawarkuan, Indore", phone:"0731-9001005", website:"https://citybike.in", img:"all photos/bike.jpg" },
+      { name:"Express Logistics", category:"Transport", desc:"Parcel & courier", address:"LIG Square, Indore", phone:"0731-9001006", website:"https://expresslogistics.in", img:"all photos/express.jpg" },
+      { name:"Green Wheels", category:"Transport", desc:"Electric vehicle share", address:"Rau, Indore", phone:"0731-9001007", website:"https://greenwheels.in", img:"all photos/green.jpg" },
+      { name:"Indore Tempo Services", category:"Transport", desc:"Loading & shifting", address:"Palasia, Indore", phone:"0731-9001008", website:"https://indoretempo.in", img:"all photos/indore.jpg" },
+      { name:"Omni Travel Solutions", category:"Transport", desc:"Tourist taxi packages", address:"Khajrana, Indore", phone:"0731-9001009", website:"https://omnitravel.in", img:"all photos/omni.jpg" },
+      { name:"Royal Bus Lines", category:"Transport", desc:"Daily Ujjain buses", address:"Sarwate Bus Stand, Indore", phone:"0731-9001010", website:"https://royalbuslines.in", img:"all photos/bus.jpg" },
+      
+      // Shops
+      { name:"Shoe Store", category:"Shops", desc:"Footwear for all", address:"MG Road, Indore", phone:"0731-1234567", website:"https://stores.metroshoes.com/metro-shoes-prince-business-skypark-ab-road-indore-madhya-pradesh-iss", img:"all photos/shoe.jpg" },
+      { name:"Techno World", category:"Shops", desc:"Electronics & gadgets", address:"Vijay Nagar, Indore", phone:"0731-7654321", website:"https://www.justdial.com/Indore/Techno-World-Mobiles-Opp-Sai-Mandir-Sudama-Nagar/0731PX731-X731-170921202708-S4K3_BZDET", img:"all photos/techno.jpg" },
+      { name:"Fashion Trends", category:"Shops", desc:"Trendy clothes & accessories", address:"Saket Nagar, Indore", phone:"0731-2345678", website:"https://fashiontrends.com", img:"all photos/fashion.jpg" },
+      { name:"Book Bazaar", category:"Shops", desc:"Books for all tastes", address:"M.G. Road, Indore", phone:"0731-8765432", website:"https://bookbazaar.in", img:"all photos/book - Copy.jpg" },
+      { name:"Grocery Mart", category:"Shops", desc:"Daily essentials", address:"Chhatripura, Indore", phone:"0731-3456789", website:"https://grocerymart.in", img:"all photos/grocery.jpg" },
+      { name:"Home Decor", category:"Shops", desc:"Furniture & decor items", address:"Rajendra Nagar, Indore", phone:"0731-9876543", website:"https://homedecor.in", img:"all photos/home.jpg" },
+      { name:"Tech Central", category:"Shops", desc:"Computers & accessories", address:"Napi Nagar, Indore", phone:"0731-2345890", website:"https://techcentral.com", img:"all photos/tech.jpg" },
+      { name:"Beauty Hub", category:"Shops", desc:"Cosmetics & skincare", address:"Mangal Nagar, Indore", phone:"0731-4325678", website:"https://beautyhub.in", img:"all photos/beauty.jpg" },
+      { name:"Bakers Delight", category:"Shops", desc:"Cakes & baked goods", address:"Janjeerwala Square, Indore", phone:"0731-5876543", website:"https://bakersdelight.in", img:"all photos/bakers.jpg" },
+      { name:"Mobile Zone", category:"Shops", desc:"Smartphones & accessories", address:"Saraswati Nagar, Indore", phone:"0731-5432789", website:"https://mobilezone.in", img:"all photos/zone.jpg" },
+      
+    ];
+
+    const container = document.getElementById('servicesContainer');
+    const searchInput = document.getElementById('searchInput');
+    const cats = document.querySelectorAll('.category-card');
+
+    // render all
+    function render(filterCat, filterTerm) {
+  container.innerHTML = '';
+  services.forEach(s => {
+    if ((filterCat === 'All' || s.category === filterCat) &&
+        s.name.toLowerCase().includes(filterTerm.toLowerCase())) {
+      
+      const card = document.createElement('div');
+      card.className = 'service-card';
+
+      card.innerHTML = `
+        <img src="${s.img}" alt="${s.category}" class="service-image"/>
+        <div class="service-content">
+          <h3 class="service-title">${s.name}</h3>
+          <p class="service-desc">${s.desc}</p>
+          ${s.address ? `<p class="service-address"><span class="map-icon">📍</span> ${s.address}</p>` : ''}
+          ${s.phone ? `<p class="service-phone">📞 ${s.phone}</p>` : ''}
+          <div class="service-actions">
+            <a href="${s.website}" target="_blank">🌐 Visit Website</a>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(card);
+    }
+  });
+
+  if (!container.innerHTML) {
+    container.innerHTML = '<p class="no-results">No services found.</p>';
+  }
+}
+
+
+    // initial render
+    render('All','');
+
+    // category click
+    cats.forEach(c => {
+      c.addEventListener('click', () => {
+        cats.forEach(x=>x.classList.remove('active'));
+        c.classList.add('active');
+        render(c.dataset.category, searchInput.value);
+      });
+    });
+
+    // search input
+    searchInput.addEventListener('input', () => {
+      const activeCat = document.querySelector('.category-card.active').dataset.category;
+      render(activeCat, searchInput.value);
+    });
+  </script>
+</body>
+</html>
