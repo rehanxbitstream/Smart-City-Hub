@@ -137,6 +137,7 @@ public class AdminDashboardServlet extends HttpServlet {
             stmt.setInt(1, status);
             stmt.setInt(2, businessId);
             stmt.executeUpdate();
+
         }
     }
 
